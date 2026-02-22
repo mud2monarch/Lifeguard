@@ -1,11 +1,11 @@
-use std::path::Display;
+use std::fmt::Display;
 
 pub mod tycho;
 
 #[derive(Debug)]
 pub struct QuoteOutput {
     amount: f64,
-    token: &str,
+    token: String,
     timestamp: i64,
 }
 

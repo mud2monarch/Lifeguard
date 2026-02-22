@@ -1,3 +1,7 @@
+use std::fmt;
+use strum::{Display, EnumIter};
+
+#[derive(Display, EnumIter)]
 pub enum ChainSelection {
     Ethereum,
     Base,
@@ -5,9 +9,9 @@ pub enum ChainSelection {
 }
 
 pub async fn measure_depth(amount: f64, scalar: f64, chain: ChainSelection) -> Result<f64, String> {
-    let value = match ChainSelection {
-        Ethereum => 2.0,
-        Base => 4.0,
+    let value = match chain {
+        ChainSelection::Ethereum => 2.0,
+        ChainSelection::Base => 4.0,
         _ => 1.0,
     };
     Ok(amount * 2.0 - value * scalar)
