@@ -1,34 +1,23 @@
-use colorize::AnsiColor;
-use inquire::validator::{StringValidator, Validation};
-use inquire::{Select, Text};
-use lifeguard::quote::QuoteOutput;
-use lifeguard::quote::tycho::{ChainSelection, measure_depth};
-use strum::IntoEnumIterator;
-use tokio;
+use lifeguard::quote::tycho::measure_depth;
+use tokio::main;
+use tycho_core::models::Chain;
+use tycho_simulation::utils::load_all_tokens;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let results: Vec<QuoteOutput> = vec![];
+    dotenvy::dotenv().ok();
+    let tycho_key = std::env::var("TYCHO_API_KEY").expect("TYCHO_API_KEY not set");
 
-    let numeric_validator = |input: &str| match input.parse::<f64>() {
-        Ok(num) => Ok(Validation::Valid),
-        Err(input) => Ok(Validation::Invalid(
-            "You need to input a numeric value.".into(),
-        )),
-    };
+    let eth_tokens = load_all_tokens(
+        "tycho-beta.propellerheads.xyz", // tycho url
+        false,                           // use tsl (this flag disables tsl)
+        Some(&tycho_key),                // auth key
+        true,
+        Chain::Ethereum, // chain
+        None,            // min quality (defaults to 100: ERC20-like tokens only)
+        Some(1),         // days since last trade (has chain specific defaults)
+    )
+    .await;
 
-    loop {
-        let chain = Select::new(
-            &"Select your chain.".yellow(),
-            ChainSelection::iter().collect(),
-        )
-        .prompt()?;
-        let amount = Text::new(&"enter amount".yellow())
-            .with_validator(numeric_validator)
-            .prompt()?;
-        let scalar = Text::new(&"enter scalar".yellow())
-            .with_validator(numeric_validator)
-            .prompt()?;
-        )
-    }
+    Ok(())
 }
