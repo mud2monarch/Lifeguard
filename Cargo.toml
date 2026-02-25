@@ -9,8 +9,10 @@ dotenvy = "0.15"
 inquire = "0.9.3"
 strum = { version = "0.27.2", features = ["derive"] }
 tokio = { version = "1.49.0", features = ["macros", "rt-multi-thread"] }
-[dependencies.tycho-simulation]
-git = "https://github.com/propeller-heads/tycho-simulation.git"
-package = "tycho-simulation"
-tag = "0.242.0"
-features = ["evm"]
+tycho-simulation = "0.245.0"
+tycho-client = "0.144.1"
+# [dependencies.tycho-simulation]
+# git = "https://github.com/propeller-heads/tycho-simulation.git"
+# package = "tycho-simulation"
+# tag = "0.242.0"
+# features = ["evm"]
